@@ -1042,7 +1042,11 @@ QVariant ShellWidget::TryGetQFontFromDescription(const QString& fdesc) const noe
 			weight = QFont::DemiBold;
 		} else if (attr.length() > 0 && attr.at(0) == 'w') {
 			weight = rightString(attr, attr.length() - 1).toInt();
+#if (QT_VERSION < QT_VERSION_CHECK(6, 0, 0))
 			if (weight < 0 || weight > 99) {
+#else
+			if (weight < 1 || weight > 1000) {
+#endif
 				return QStringLiteral("Invalid font weight");
 			}
 		} else if (attr == "i") {
